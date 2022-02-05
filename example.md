@@ -5,7 +5,7 @@ This is an example markdown file for inlining `c++` source code.
 
 Let's create a function that prints `Hello World!`.
 
-```cpp
+```cpp, hello.cpp
 #include <stdio.h>
 
 void hello() {
@@ -15,7 +15,7 @@ void hello() {
 
 Now we can have the `main` function,
 
-```cpp
+```cpp, hello.cpp
 int main() {
     hello();
     return 0;

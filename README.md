@@ -7,7 +7,7 @@ CPPBOOK
 
 For example, a `c++` code block below
 
-```c++
+```c++, hello.cpp
 #include <stdio.h>
 
 int main() {
@@ -26,7 +26,7 @@ Hello World!
 You may also define your own filename by adding the filename behine the language tag.
 
 <pre>
-```cpp, hello.cpp
+```cpp, hello2.cpp
 #include ...
 ...
 ```

@@ -27,12 +27,12 @@ func (b *CppBlock) Language() string {
 
 func (b *CppBlock) Filepath() string {
 	if b.fencedCodeBlock == nil || b.fencedCodeBlock.Info == nil {
-		return strings.ReplaceAll(b.mdFilepath, filepath.Ext(b.mdFilepath), ".cpp")
+		return ""
 	}
 	hint := string(b.fencedCodeBlock.Info.Text(b.mdSource))
 	chunks := strings.Split(hint, ",")
 	if len(chunks) < 2 {
-		return strings.ReplaceAll(b.mdFilepath, filepath.Ext(b.mdFilepath), ".cpp")
+		return ""
 	}
 	return strings.ReplaceAll(b.mdFilepath, filepath.Base(b.mdFilepath), strings.TrimSpace(chunks[1]))
 }

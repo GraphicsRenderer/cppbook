@@ -49,7 +49,9 @@ func findCppBlocks(mdFileName string, mdSource []byte) []*CppBlock {
 			if cppBlock.Language() == "cpp" || cppBlock.Language() == "c++" ||
 				cppBlock.Language() == "cxx" || cppBlock.Language() == "cc" ||
 				cppBlock.Language() == "c" {
-				blocks = append(blocks, cppBlock)
+				if cppBlock.Filepath() != "" {
+					blocks = append(blocks, cppBlock)
+				}
 			}
 		}
 		return ast.WalkContinue, nil
