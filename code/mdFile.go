@@ -1,6 +1,7 @@
 package code
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -30,6 +31,7 @@ func Execute(filename string) error {
 		if err != nil {
 			return err
 		}
+		fmt.Println()
 	}
 	return nil
 }
@@ -43,7 +45,9 @@ func findCppBlocks(mdFileName string, mdSource []byte) []*CppBlock {
 		}
 		if block, ok := n.(*ast.FencedCodeBlock); ok {
 			cppBlock := &CppBlock{mdFileName, mdSource, block}
-			if cppBlock.Language() == "cpp" || cppBlock.Language() == "c++" {
+			if cppBlock.Language() == "cpp" || cppBlock.Language() == "c++" ||
+				cppBlock.Language() == "cxx" || cppBlock.Language() == "cc" ||
+				cppBlock.Language() == "c" {
 				blocks = append(blocks, cppBlock)
 			}
 		}

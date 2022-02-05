@@ -4,7 +4,6 @@ import (
 	"cppbook/args"
 	"fmt"
 	"io/ioutil"
-	"os/exec"
 	"path/filepath"
 	"strings"
 )
@@ -15,7 +14,15 @@ type CppFile struct {
 }
 
 func (f *CppFile) Execute() error {
-	return f.SaveAndCompile()
+	err := f.SaveAndCompile()
+	if err != nil {
+		return err
+	}
+	err = f.Run()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (f *CppFile) SaveAndCompile() error {
@@ -24,9 +31,11 @@ func (f *CppFile) SaveAndCompile() error {
 		return err
 	}
 	command := fmt.Sprintf("%s -o %s %s", *args.CompileCommand, f.OutputPath(), f.Filepath)
-	fmt.Println(command)
-	cmd := exec.Command(command)
-	return cmd.Run()
+	return ExecCmd(command)
+}
+
+func (f *CppFile) Run() error {
+	return ExecCmd(f.OutputPath())
 }
 
 func (f *CppFile) OutputPath() string {
