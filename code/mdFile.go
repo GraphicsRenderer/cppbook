@@ -1,7 +1,6 @@
 package code
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -31,7 +30,6 @@ func Execute(filename string) error {
 		if err != nil {
 			return err
 		}
-		fmt.Println()
 	}
 	return nil
 }

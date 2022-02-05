@@ -13,7 +13,7 @@ void hello() {
 }
 ```
 
-Now we can have the main function,
+Now we can have the `main` function,
 
 ```cpp
 int main() {
@@ -22,7 +22,7 @@ int main() {
 }
 ```
 
-Here we can try another `c++` code.
+Here we can try another `c++` code with filename attached behined.
 
 ```cpp, test.cpp
 #include <stdio.h>
