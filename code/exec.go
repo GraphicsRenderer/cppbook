@@ -7,6 +7,8 @@ import (
 	"os/exec"
 	"regexp"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 func ExecCmd(command string) error {
@@ -16,7 +18,9 @@ func ExecCmd(command string) error {
 	if len(chunks) < 1 {
 		return errors.New("empty command is not allowed")
 	}
+	color.Set(color.FgMagenta)
 	fmt.Println(strings.Join(chunks, " "))
+	color.Unset()
 	args := []string{}
 	for i := 1; i < len(chunks); i++ {
 		args = append(args, chunks[i])
