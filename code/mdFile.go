@@ -41,6 +41,9 @@ func findCppBlocks(mdFileName string, mdSource []byte) []*CppBlock {
 		if !entering {
 			return ast.WalkContinue, nil
 		}
+		if n.Type() != ast.TypeBlock {
+			return ast.WalkContinue, nil
+		}
 		if block, ok := n.(*ast.FencedCodeBlock); ok {
 			cppBlock := &CppBlock{mdFileName, mdSource, block}
 			if cppBlock.Language() == "cpp" || cppBlock.Language() == "c++" ||

@@ -23,7 +23,9 @@ func (f *CppFile) Execute() error {
 	if err != nil {
 		return err
 	}
-	return os.Remove(f.Filepath)
+	os.Remove(f.Filepath)
+	os.Remove(f.OutputPath())
+	return nil
 }
 
 func (f *CppFile) SaveAndCompile() error {

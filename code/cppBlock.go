@@ -14,6 +14,9 @@ type CppBlock struct {
 }
 
 func (b *CppBlock) Language() string {
+	if b.fencedCodeBlock == nil || b.fencedCodeBlock.Info == nil {
+		return ""
+	}
 	hint := string(b.fencedCodeBlock.Info.Text(b.mdSource))
 	chunks := strings.Split(hint, ",")
 	if len(chunks) < 1 {
@@ -23,6 +26,9 @@ func (b *CppBlock) Language() string {
 }
 
 func (b *CppBlock) Filepath() string {
+	if b.fencedCodeBlock == nil || b.fencedCodeBlock.Info == nil {
+		return strings.ReplaceAll(b.mdFilepath, filepath.Ext(b.mdFilepath), ".cpp")
+	}
 	hint := string(b.fencedCodeBlock.Info.Text(b.mdSource))
 	chunks := strings.Split(hint, ",")
 	if len(chunks) < 2 {
