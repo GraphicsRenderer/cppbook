@@ -3,6 +3,7 @@ package code
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
@@ -18,7 +19,11 @@ func Execute(filename string) error {
 	if err != nil {
 		return err
 	}
-	blocks := findCppBlocks(mdSource)
+	mdFilepath, err := filepath.Abs(filename)
+	if err != nil {
+		return err
+	}
+	blocks := findCppBlocks(mdFilepath, mdSource)
 	cppFiles := findCppFiles(blocks)
 	for _, cppFile := range cppFiles {
 		err = cppFile.Execute()
@@ -29,7 +34,7 @@ func Execute(filename string) error {
 	return nil
 }
 
-func findCppBlocks(mdSource []byte) []*CppBlock {
+func findCppBlocks(mdFileName string, mdSource []byte) []*CppBlock {
 	node := goldmark.DefaultParser().Parse(text.NewReader(mdSource))
 	blocks := []*CppBlock{}
 	ast.Walk(node, func(n ast.Node, entering bool) (ast.WalkStatus, error) {
@@ -37,7 +42,7 @@ func findCppBlocks(mdSource []byte) []*CppBlock {
 			return ast.WalkContinue, nil
 		}
 		if block, ok := n.(*ast.FencedCodeBlock); ok {
-			cppBlock := &CppBlock{mdSource, block}
+			cppBlock := &CppBlock{mdFileName, mdSource, block}
 			if cppBlock.Language() == "cpp" || cppBlock.Language() == "c++" {
 				blocks = append(blocks, cppBlock)
 			}
@@ -50,7 +55,7 @@ func findCppBlocks(mdSource []byte) []*CppBlock {
 func findCppFiles(blocks []*CppBlock) []*CppFile {
 	cppFiles := map[string]*CppFile{}
 	for _, block := range blocks {
-		filename := block.FileName()
+		filename := block.Filepath()
 		_, ok := cppFiles[filename]
 		if !ok {
 			cppFiles[filename] = &CppFile{filename, []*CppBlock{}}
