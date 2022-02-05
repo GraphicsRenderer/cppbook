@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"cppbook/args"
+	"cppbook/code"
+	"log"
+)
 
 func main() {
-	fmt.Println("Hello World!")
+	args.Parse()
+	err := code.Execute(*args.InputFile)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
