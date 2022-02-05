@@ -4,6 +4,7 @@ import (
 	"cppbook/args"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -22,7 +23,7 @@ func (f *CppFile) Execute() error {
 	if err != nil {
 		return err
 	}
-	return nil
+	return os.Remove(f.Filepath)
 }
 
 func (f *CppFile) SaveAndCompile() error {

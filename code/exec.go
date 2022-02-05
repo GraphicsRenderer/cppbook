@@ -3,6 +3,7 @@ package code
 import (
 	"errors"
 	"fmt"
+	"os"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -21,5 +22,7 @@ func ExecCmd(command string) error {
 		args = append(args, chunks[i])
 	}
 	cmd := exec.Command(chunks[0], args...)
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
 	return cmd.Run()
 }
